@@ -5,12 +5,11 @@
   Edit
 {% endblock %}
 
-{%block nav%}
+{%block navigation%}
 <li class="nav-item">
   <a class="nav-link" href="{% url 'memories:detail' username=request.user.username pk=memory.pk %}">Detail</a>
 </li>
-
-{%endblock%}
+{% endblock %}
 
 
 {% block content %}

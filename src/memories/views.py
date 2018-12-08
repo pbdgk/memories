@@ -107,7 +107,7 @@ class MemoryDeleteView(View):
         if request.user.username != username:
             raise Http404
         memory = get_object_or_404(self.model, pk=pk)
-        return render(request, self.template_name, {'title': memory.title})
+        return render(request, self.template_name, {'memory': memory})
     
     def post(self, request, username, pk):
         if request.user.username != username:

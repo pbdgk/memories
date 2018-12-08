@@ -5,7 +5,9 @@
 
 {% block content %}
 <form method="post">{% csrf_token %}
-    <p>Are you sure you want to delete "{{ title }}"?</p>
-    <input type="submit" value="Confirm">
+    <p>Are you sure you want to delete "{{ memory.title }}"?</p>
+    <input class="btn btn-danger" type="submit" value="Delete">
+    <a href="{% url 'memories:edit' username=user.username pk=memory.pk %}" class="btn btn-primary">Go to edit</a>     
+    <a href="{% url 'memories:detail' username=user.username pk=memory.pk %}" class="btn btn-primary">Go to detail</a>     
 </form>
 {% endblock %}
