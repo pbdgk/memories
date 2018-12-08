@@ -1,0 +1,17 @@
+{% extends "memories/base.html" %}
+
+{% load static crispy_forms_tags %}
+
+{% block content %}
+<h3>Create new memory</h3>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+        {{ form.title|as_crispy_field }}
+        {{ form.content|as_crispy_field }}
+        {{ form.media|as_crispy_field }}
+    <input type="submit" class="btn btn-primary" value="Save">
+</form>
+
+<p>Or you can just add Youtube link</p>
+<a href="{% url 'memories:embed' username=request.user.username %}">Add YouTube Link</a>
+{% endblock %}

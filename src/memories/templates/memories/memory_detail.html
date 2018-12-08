@@ -1,0 +1,25 @@
+{% extends "memories/base.html" %}
+{% load startswith %}
+
+{% block content %}
+<h1>{{ memory.title }}</h1>
+<p>{{ memory.content }}</p>
+            {% if memory.mime_type|startswith:'video' %}
+                <video width="320" height="240" controls>
+                <source src="{{ memory.media.url }}" type="video/mp4">
+                Your browser does not support the video tag.
+                </video> 
+            {% elif memory.mime_type|startswith:'image' %}
+                <img style='width: 100%' src="{{memory.media.url}}" alt="image">
+            
+            {% elif memory.mime_type|startswith:'embed' %}
+                 <iframe
+                    src="https://www.youtube.com/embed/{{ memory.embed_id }}">
+                </iframe> 
+
+            {% endif %}
+<p>Published: {{ memory.created|date }}</p>
+{% if request.user == memory.author %}
+{% endif %}
+
+{% endblock %}

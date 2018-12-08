@@ -5,5 +5,9 @@ app_name = "memories"
 
 urlpatterns = [
     path('', views.Index.as_view(), name='main'),
+    path('<str:username>/', views.MemoryListView.as_view(), name="list"),
+    path('<str:username>/create/', views.MemoryCreateView.as_view(), name="create"),
+    path('<str:username>/create-embed/', views.MemoryEmbedView.as_view(), name="embed"),
+    path('<str:username>/<int:pk>/', views.MemoryDetailView.as_view(), name='detail'),
 
 ]
