@@ -1,0 +1,9 @@
+{% extends 'memories/base.html' %}
+
+{% block content %}
+    {% for user in users %}
+        <a href="{% url 'memories:list' username=user.username %}">{{user.username}}</a>
+    {% empty %}
+        <p>Поспешите успеть стать первым пользователем!</p>
+    {% endfor %}
+{% endblock %}
