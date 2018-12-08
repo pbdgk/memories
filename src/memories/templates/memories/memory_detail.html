@@ -20,6 +20,7 @@
             {% endif %}
 <p>Published: {{ memory.created|date }}</p>
 {% if request.user == memory.author %}
+<a href="{% url 'memories:edit' username=user.username pk=memory.pk %}" class="btn btn-primary">Edit</a>
 {% endif %}
 
 {% endblock %}

@@ -1,0 +1,35 @@
+{% extends "memories/base.html" %}
+
+
+{%block nav%}
+<li class="nav-item">
+  <a class="nav-link" href="{% url 'memories:detail' username=request.user.username pk=memory.pk %}">Detail</a>
+</li>
+
+{%endblock%}
+
+
+{% block content %}
+{% load startswith crispy_forms_tags %}
+  <form method="post" novalidate>
+    {% csrf_token %}
+    {{ form.title|as_crispy_field }}
+    {{ form.content|as_crispy_field }}
+    <div class="form-group">
+    {% if memory.mime_type|startswith:'video' %}
+      <video style="width: 100%; height: 270px;" controls>
+        <source src="{{ memory.media.url }}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      {% elif memory.mime_type|startswith:'image' %}
+      <img style="width: 100%" src="{{memory.media.url}}" alt="image" />
+
+      {% elif memory.mime_type|startswith:'embed' %}
+      <iframe style="width: 100%; height: 270px;" src="https://www.youtube.com/embed/{{ memory.embed_id }}">
+      </iframe>
+      {% endif %}
+    </div>
+    <input type="submit" class="btn btn-success" value="Update"/>
+    <a href="{% url 'memories:delete' username=request.user.username pk=memory.pk %}" class="btn btn-danger">Delete</a>
+  </form>
+{% endblock %}

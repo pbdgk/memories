@@ -74,3 +74,44 @@ class MemoryEmbedView(View):
 class MemoryDetailView(DetailView):
     model = models.Memory
     context_object_name = 'memory'
+
+
+class MemoryEditView(View):
+    model = models.Memory
+    form_class = forms.MemoryForm
+    template_name = "memories/memory_edit.html"
+
+    def get(self, request, username, pk, *args, **kwargs):
+        if request.user.username != username:
+            raise Http404
+        memory = get_object_or_404(self.model, pk=pk)
+        form = self.form_class(instance=memory)
+        return render(request, self.template_name, {'form': form, 'memory': memory})
+    
+    def post(self, request, username, pk):
+        if request.user.username != username:
+            raise Http404
+        memory = get_object_or_404(self.model, pk=pk)
+        form = self.form_class(request.POST, instance=memory)
+        if form.is_valid():
+            form.save()
+            return redirect(reverse('memories:detail', kwargs={'username': request.user.username, 'pk': memory.pk}))
+        return render(request, self.template_name, {'form': form, 'memory': memory})
+
+
+class MemoryDeleteView(View):
+    model = models.Memory
+    template_name = 'memories/memory_confirm_delete.html'
+
+    def get(self, request, username, pk):
+        if request.user.username != username:
+            raise Http404
+        memory = get_object_or_404(self.model, pk=pk)
+        return render(request, self.template_name, {'title': memory.title})
+    
+    def post(self, request, username, pk):
+        if request.user.username != username:
+            raise Http404
+        memory = get_object_or_404(self.model, pk=pk)
+        memory.delete()
+        return redirect(reverse('memories:list', kwargs={'username': username}))

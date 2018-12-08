@@ -34,6 +34,7 @@ def get_data_from_embed(embed_id, user):
         content = data['items'][0]['snippet']['description']
         created = data['items'][0]['snippet']['publishedAt']
     except (IndexError, KeyError) as e:
+        # fix this. return validatoin error
         raise Http404
     else:
         return {
