@@ -7,7 +7,8 @@ from . import constants
 
 
 def check_in_memory_mime(in_memory_file):
-    # because of I don't find how to populate mime type in form class i have to get mime twice.
+    # because of I don't find how to populate mime type in form class
+    # i have to get mime twice.
     # So i need to read from 0 point.
     in_memory_file.seek(0, 0)
     mime = magic.from_buffer(in_memory_file.read(1024), mime=True)
@@ -22,10 +23,12 @@ def is_good_mimes(mime):
     return False
 
 
-payload = {'key':'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
+payload = {'key': 'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
+
 
 def get_data_from_embed(embed_id, user):
-    payload = {'key':'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
+    payload = {'key': 'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k',
+               'part': 'snippet'}
     payload.update({"id": embed_id})
     data = requests.get(constants.YOUTUBE_API_URL, payload)
     data = data.json()
@@ -33,7 +36,7 @@ def get_data_from_embed(embed_id, user):
         title = data['items'][0]['snippet']['title']
         content = data['items'][0]['snippet']['description']
         created = data['items'][0]['snippet']['publishedAt']
-    except (IndexError, KeyError) as e:
+    except (IndexError, KeyError):
         # fix this. return validatoin error
         raise Http404
     else:
