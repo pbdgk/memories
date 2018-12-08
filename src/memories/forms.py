@@ -25,9 +25,9 @@ class EmbedForm(forms.Form):
     def clean_embed_id(self):
         cleaned_embed_url = self.cleaned_data.get('embed_id')
         parsed_url = urlparse(cleaned_embed_url)
-        if parsed_url.netloc != YOUTUBE_DOMAIN or parsed_url.path != YOUTUBE_PATH:
-            raise ValidationError('Domain must be {}{}'.format(YOUTUBE_DOMAIN,
-                                                               YOUTUBE_PATH))
+        if parsed_url.netloc != constants.YOUTUBE_DOMAIN or parsed_url.path != constants.YOUTUBE_PATH:
+            raise ValidationError('Domain must be {}{}'.format(constants.YOUTUBE_DOMAIN,
+                                                               constants.YOUTUBE_PATH))
         query_set = parse_qs(parsed_url.query)
         embed_id = query_set.get('v')
         if embed_id is None:

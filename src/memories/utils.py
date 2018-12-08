@@ -25,7 +25,6 @@ def is_good_mimes(mime):
 payload = {'key':'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
 
 def get_data_from_embed(embed_id, user):
-    url = "https://www.googleapis.com/youtube/v3/videos"
     payload = {'key':'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
     payload.update({"id": embed_id})
     data = requests.get(constants.YOUTUBE_API_URL, payload)
