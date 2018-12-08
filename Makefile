@@ -1,16 +1,16 @@
 run:
-	python rentsite/manage.py runserver
+	python src/manage.py runserver
 
 migrate:
-	python rentsite/manage.py migrate
+	python src/manage.py migrate
 
 makemigraions:
-	python rentsite/manage.py makemigrations
+	python src/manage.py makemigrations
 
 shell:
-	python rentsite/manage.py shell
+	python src/manage.py shell
 
 all:
-	python rentsite/manage.py makemigrations
-	python rentsite/manage.py migrate
-	python rentsite/manage.py runserver
+	python src/manage.py makemigrations
+	python src/manage.py migrate
+	python src/manage.py runserver
