@@ -5,7 +5,7 @@
 {% block content %}
 <h1>Memmories</h1>
 {% if user.username == page_username %}
-    <a href="{% url 'memories:create' username=page_username %}" class="btn btn-primary">Add new memory</a>
+    <a href="{% url 'memories:create' username=user.username%}" class="btn btn-primary">Add new memory</a>
 {% endif %}
 {% for memory in memories %}
 <div class="card">
@@ -30,7 +30,7 @@
 
             {% endif %}
         </div>
-        <a href="{% url 'memories:detail' username=user.username pk=memory.pk %}" class="btn btn-primary">Detail</a>
+        <a href="{% url 'memories:detail' username=page_username pk=memory.pk %}" class="btn btn-primary">Detail</a>
     </div>
 </div>
 {% empty %}
