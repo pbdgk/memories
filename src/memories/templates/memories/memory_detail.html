@@ -1,6 +1,10 @@
 {% extends "memories/base.html" %}
 {% load startswith %}
 
+{% block title %}
+    Detail
+{% endblock %}
+
 {% block content %}
 <h1>{{ memory.title }}</h1>
 <p>{{ memory.content }}</p>

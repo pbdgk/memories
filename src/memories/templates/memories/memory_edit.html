@@ -1,6 +1,10 @@
 {% extends "memories/base.html" %}
 
 
+{% block title %}
+  Edit
+{% endblock %}
+
 {%block nav%}
 <li class="nav-item">
   <a class="nav-link" href="{% url 'memories:detail' username=request.user.username pk=memory.pk %}">Detail</a>

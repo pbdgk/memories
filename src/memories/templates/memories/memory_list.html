@@ -1,5 +1,13 @@
 {% extends "memories/base.html" %}
 
+{% block title %}
+    {% if user.username == page_username %}
+        Yours Memories    
+    {% else %}
+        {{ page_username }}`s memories
+    {% endif %}
+{% endblock %}
+
 {% load startswith %}
 
 {% block content %}
