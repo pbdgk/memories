@@ -1,16 +1,16 @@
 run:
-	python src/manage.py runserver
+	python manage.py runserver
 
 migrate:
-	python src/manage.py migrate
+	python manage.py migrate
 
 makemigraions:
-	python src/manage.py makemigrations
+	python manage.py makemigrations
 
 shell:
-	python src/manage.py shell
+	python manage.py shell
 
 all:
-	python src/manage.py makemigrations
-	python src/manage.py migrate
-	python src/manage.py runserver
+	python manage.py makemigrations
+	python manage.py migrate
+	python manage.py runserver
