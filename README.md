@@ -1,6 +1,6 @@
 # Memories
 
-### install instuctions
+### install instructions
 ```
 make install
 ```
