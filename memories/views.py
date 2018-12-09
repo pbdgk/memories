@@ -104,7 +104,7 @@ class MemoryEditView(View):
     def post(self, request, username, pk):
         if request.user.username != username:
             raise Http404
-        
+
         memory = get_object_or_404(self.model, pk=pk)
         form = self.form_class(request.POST, instance=memory)
         if form.is_valid():
@@ -113,8 +113,6 @@ class MemoryEditView(View):
                 'memories:detail',
                 kwargs={'username': request.user.username, 'pk': memory.pk})
                 )
-        print(form.data)
-        print(form.errors)
         return render(request,
                       self.template_name,
                       {'form': form, 'memory': memory}
@@ -130,7 +128,7 @@ class MemoryDeleteView(View):
             raise Http404
         memory = get_object_or_404(self.model, pk=pk)
         return render(request, self.template_name, {'memory': memory})
-    
+
     def post(self, request, username, pk):
         if request.user.username != username:
             raise Http404

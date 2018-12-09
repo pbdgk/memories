@@ -22,6 +22,7 @@ def register(request):
 
 
 def login_view(request):
+    error = None
     if request.method == 'POST':
         username = request.POST.get('username')
         password = request.POST.get('password')
@@ -29,8 +30,10 @@ def login_view(request):
         if user:
             login(request, user)
             return redirect(reverse('memories:list', kwargs={'username': username}))
-    return render(request, 'authentication_app/login.html')
+        error = 'Wrong credentials'
+    return render(request, 'authentication_app/login.html', {'error': error})
+
 
 def logout_view(request):
-    logout(request);
+    logout(request)
     return redirect(reverse('memories:main'))

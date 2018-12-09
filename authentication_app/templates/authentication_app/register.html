@@ -1,21 +1,13 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="ie=edge">
-  <title>Register</title>
-</head>
-<body>
+{% extends "memories/base.html" %}
+
+{% block title %} Register {% endblock %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
   <form method="post">
     {% csrf_token %}
-    {% if form.errors %}
-    {{ form.errors}}
-    <p>There are errors in form</p>
-    {% endif %}
-
-    {{ form.as_p }}
-
-    <button type='submit'>Register</button>
+    {{ form|crispy }}
+    <input class="btn btn-primary" type='submit' value="Register"/>
   </form>
-</body>
-</html>
+{% endblock %}

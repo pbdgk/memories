@@ -2,8 +2,9 @@
 
 
 {% block content %}
+    <p>Check Users memories</p>
     {% for user in users %}
-        <a href="{% url 'memories:list' username=user.username %}">{{user.username}}</a>
+        <p><a href="{% url 'memories:list' username=user.username %}">{{user.username}}</a></p>
     {% empty %}
         <p>Поспешите успеть стать первым пользователем!</p>
     {% endfor %}

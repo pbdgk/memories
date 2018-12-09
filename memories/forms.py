@@ -15,8 +15,7 @@ class MemoryForm(forms.ModelForm):
 
     def clean_media(self):
         media = self.cleaned_data.get('media', None)
-        print('clean media', self.cleaned_data)
-        if media is not None and media != "":
+        if media is not None:
             mime = utils.check_in_memory_mime(media)
             if not utils.is_good_mimes(mime):
                 raise ValidationError(f"Such file type '{mime}'\
@@ -30,7 +29,6 @@ class EmbedForm(forms.Form):
 
     def clean(self):
         cleaned_data = super().clean()
-        print('MIAN clean', cleaned_data)
         embed_id = cleaned_data.get('embed_id')
         embed_data_dict = utils.get_data_from_embed(embed_id)
         if embed_data_dict is None:
@@ -39,7 +37,6 @@ class EmbedForm(forms.Form):
         return cleaned_data
 
     def clean_embed_id(self):
-        print('clenad embed id')
         cleaned_embed_url = self.cleaned_data.get('embed_id')
         parsed_url = urlparse(cleaned_embed_url)
         if parsed_url.netloc != constants.YOUTUBE_DOMAIN\
