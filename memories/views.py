@@ -47,8 +47,10 @@ class MemoryCreateView(View):
         if form.is_valid():
             memory = form.save(commit=False)
             memory.author = request.user
-            mime = utils.check_in_memory_mime(file['media'])
-            memory.mime_type = mime
+            media = file.get('media', None)
+            if media is not None:
+                mime = utils.check_in_memory_mime(media)
+                memory.mime_type = mime
             memory.save()
             return redirect(reverse(
                 'memories:detail',
@@ -72,8 +74,7 @@ class MemoryEmbedView(View):
             raise Http404
         form = self.form_class(request.POST)
         if form.is_valid():
-            embed_id = form.cleaned_data.get('embed_id')
-            memory = form.save(embed_id, request.user)
+            memory = form.save(request.user)
             return redirect(reverse(
                 'memories:detail',
                 kwargs={"username": username, 'pk': memory.id})
@@ -99,10 +100,11 @@ class MemoryEditView(View):
         return render(request, self.template_name,
                       {'form': form, 'memory': memory}
                       )
-    
+
     def post(self, request, username, pk):
         if request.user.username != username:
             raise Http404
+
         memory = get_object_or_404(self.model, pk=pk)
         form = self.form_class(request.POST, instance=memory)
         if form.is_valid():
@@ -126,7 +128,7 @@ class MemoryDeleteView(View):
             raise Http404
         memory = get_object_or_404(self.model, pk=pk)
         return render(request, self.template_name, {'memory': memory})
-    
+
     def post(self, request, username, pk):
         if request.user.username != username:
             raise Http404

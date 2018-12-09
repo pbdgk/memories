@@ -1,5 +1,3 @@
-from django.http import Http404
-
 import magic
 import requests
 
@@ -23,28 +21,26 @@ def is_good_mimes(mime):
     return False
 
 
-payload = {'key': 'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k', 'part': 'snippet'}
-
-
-def get_data_from_embed(embed_id, user):
-    payload = {'key': 'AIzaSyBjU9OWslGq1SuK9JM1XE4GMedSFXwml_k',
-               'part': 'snippet'}
+def get_data_from_embed(embed_id):
+    payload = constants.YOUTUBE_PAYLOAD_REQUEST.copy()
     payload.update({"id": embed_id})
+
     data = requests.get(constants.YOUTUBE_API_URL, payload)
-    data = data.json()
+    if not data.status_code == requests.codes.ok:
+        return None
+
     try:
-        title = data['items'][0]['snippet']['title']
-        content = data['items'][0]['snippet']['description']
-        created = data['items'][0]['snippet']['publishedAt']
-    except (IndexError, KeyError):
-        # fix this. return validatoin error
-        raise Http404
-    else:
+        data = data.json()
+    except ValueError:
+        return None
+
+    try:
         return {
-            'author': user,
-            'title': title,
-            'content': content,
-            'created': created,
+            'title': data['items'][0]['snippet']['title'],
+            'content': data['items'][0]['snippet']['description'],
+            'created': data['items'][0]['snippet']['publishedAt'],
             'embed_id': embed_id,
             'mime_type': 'embed'
         }
+    except (IndexError, KeyError):
+        return None

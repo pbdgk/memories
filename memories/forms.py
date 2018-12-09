@@ -7,6 +7,8 @@ from . import utils, constants, models
 
 
 class MemoryForm(forms.ModelForm):
+    media = forms.FileField(required=False)
+
     class Meta:
         model = models.Memory
         fields = ('title', 'content', 'media')
@@ -25,6 +27,15 @@ class MemoryForm(forms.ModelForm):
 class EmbedForm(forms.Form):
     embed_id = forms.CharField()
 
+    def clean(self):
+        cleaned_data = super().clean()
+        embed_id = cleaned_data.get('embed_id')
+        embed_data_dict = utils.get_data_from_embed(embed_id)
+        if embed_data_dict is None:
+            raise ValidationError("Can't get data from that youtube video id.")
+        cleaned_data.update({'embed_data': embed_data_dict})
+        return cleaned_data
+
     def clean_embed_id(self):
         cleaned_embed_url = self.cleaned_data.get('embed_id')
         parsed_url = urlparse(cleaned_embed_url)
@@ -40,7 +51,11 @@ class EmbedForm(forms.Form):
             raise ValidationError('No post id')
         return embed_id[0]
 
-    def save(self, embed_id, user):
-        data = utils.get_data_from_embed(embed_id, user)
-        memory = models.Memory.objects.create(**data)
+    def save(self, user):
+        embed_data = self.cleaned_data.get('embed_data')
+        data_to_update = {
+            'author': user,
+        }
+        embed_data.update(data_to_update)
+        memory = models.Memory.objects.create(**embed_data)
         return memory
